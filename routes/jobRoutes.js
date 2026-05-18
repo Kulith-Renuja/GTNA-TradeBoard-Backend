@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const JobRequest = require('../models/JobRequest');
+const authMiddleware = require('../middleware/authMiddleware');
 
 // POST /api/jobs - Create a new job
-router.post('/', async (req, res, next) => {
+router.post('/', authMiddleware, async (req, res, next) => {
   try {
     const { title, description, contactEmail, ...otherFields } = req.body;
 
@@ -105,7 +106,7 @@ router.patch('/:id', async (req, res, next) => {
 });
 
 // DELETE /api/jobs/:id - Delete a specific job
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', authMiddleware, async (req, res, next) => {
   try {
     const deletedJob = await JobRequest.findByIdAndDelete(req.params.id);
     if (!deletedJob) {
