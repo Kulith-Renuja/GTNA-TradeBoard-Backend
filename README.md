@@ -1,21 +1,55 @@
-backend 
-Act as an expert technical writer. Please generate a highly professional, clean README.md file for the backend repository of my "GTNA TradeBoard" project. 
+# GTNA TradeBoard - Backend API
 
-The backend is built using Node.js, Express, Mongoose, and MongoDB. It handles the REST API endpoints and connects to a MongoDB database.
+## Description
+This is the backend REST API for the GTNA TradeBoard application, developed as a technical assessment. It is built using Node.js, Express, and MongoDB. This backend manages service requests and includes advanced bonus features such as full JWT authentication for secure operations and Regex-based keyword search for enhanced data retrieval.
 
-The README must include these exact sections with proper Markdown formatting:
-1. Project Title: GTNA TradeBoard - Backend API
-2. Description: A brief summary stating this is the backend REST API for the GTNA TradeBoard developer assessment, built with Node.js, Express, and MongoDB.
-3. Tech Stack: A bulleted list showing Node.js, Express, MongoDB, Mongoose, Dotenv, and CORS.
-4. Environment Variables: A code block showing the required keys for a `.env` file:
-   - PORT=5000
-   - MONGODB_URI=your_mongodb_connection_string
-5. Installation & Setup Instructions: Step-by-step terminal commands (`npm install`).
-6. How to Run: Commands for development ( `node server.js`).
-7. API Endpoints Table: A clean markdown table mapping out the required routes from the assessment:
-   - GET /api/jobs (Supports optional ?category and ?status filters)
-   - GET /api/jobs/:id
-   - POST /api/jobs (With input and email format validation)
-   - PATCH /api/jobs/:id (Updates job status only)
-   - DELETE /api/jobs/:id
-8. Features Included: Mention input validation, global error handling, and a 404 handler for missing resources.
+## Tech Stack
+- **Node.js** - JavaScript runtime
+- **Express** - Web framework for Node.js
+- **MongoDB** - NoSQL database
+- **Mongoose** - Object Data Modeling (ODM) library for MongoDB and Node.js
+- **Dotenv** - Environment variable management
+- **CORS** - Cross-Origin Resource Sharing middleware
+- **bcryptjs** - Password hashing library
+- **jsonwebtoken (JWT)** - Secure token generation and verification
+
+## Environment Variables
+Create a `.env` file in the root directory and add the following keys:
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+```
+
+## Installation & Setup Instructions
+1. Clone the repository and navigate to the backend directory.
+2. Install the required dependencies using npm:
+```bash
+npm install
+```
+
+## How to Run
+Start the server using Node:
+```bash
+node server.js
+```
+*(Or use `npm run dev` if a dev script using nodemon is configured).*
+
+## API Endpoints
+
+| Method | Endpoint | Protected | Description |
+|---|---|---|---|
+| **POST** | `/api/auth/register` | No | Register a new user |
+| **POST** | `/api/auth/login` | No | Login and receive a JWT token |
+| **GET** | `/api/jobs` | No | List all jobs. Supports optional `?category`, `?status`, and `?search` filters |
+| **GET** | `/api/jobs/:id` | No | Fetch a single job by its ID |
+| **POST** | `/api/jobs` | **Yes 🔒** | Create a new job. Requires Bearer Token. Includes input/email validation |
+| **PATCH** | `/api/jobs/:id` | No | Update the status of a specific job |
+| **DELETE** | `/api/jobs/:id` | **Yes 🔒** | Delete a specific job. Requires Bearer Token |
+
+## Features Included
+- **Robust Input Validation:** Ensures all required fields are present and emails are properly formatted.
+- **Global Error Handling:** Consistent JSON error responses across the entire API.
+- **404 Resource Handler:** Graceful fallbacks for missing routes or documents.
+- **Regex-Based Keyword Search:** Case-insensitive search across job titles and descriptions.
+- **JWT Route Protection:** Secure authentication middleware preventing unauthorized creation and deletion of jobs.
