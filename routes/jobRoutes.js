@@ -35,10 +35,17 @@ router.post('/', async (req, res, next) => {
 // GET /api/jobs - List all jobs with optional filters
 router.get('/', async (req, res, next) => {
   try {
-    const { category, status } = req.query;
+    const { category, status, search } = req.query;
     const filter = {};
     if (category) filter.category = category;
     if (status) filter.status = status;
+
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
+    }
 
     const jobs = await JobRequest.find(filter).sort({ createdAt: -1 });
     res.status(200).json(jobs);
